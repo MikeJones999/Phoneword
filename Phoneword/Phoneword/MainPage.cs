@@ -9,6 +9,12 @@ namespace Phoneword
 {
     class MainPage : ContentPage
     {
+
+        Button button1;
+        Button button2;
+        Label label;
+        Entry entry;
+
         public MainPage()
         {
 
@@ -16,7 +22,7 @@ namespace Phoneword
             Device.OnPlatform<double>(40, 20, 20), 20, 20);
 
 
-            Button button1 = new Button
+            button1 = new Button
             {
                 Text = "Translate",
                 Font = Font.SystemFontOfSize(NamedSize.Large),
@@ -27,7 +33,7 @@ namespace Phoneword
             button1.Clicked += OnButtonClicked;
 
 
-            Button button2 = new Button
+            button2 = new Button
             {
                 Text = "Call",
                 Font = Font.SystemFontOfSize(NamedSize.Large),
@@ -39,7 +45,7 @@ namespace Phoneword
             button2.Clicked += OnButtonClicked;
 
 
-            Label label = new Label
+            label = new Label
             {
                 Text = "Enter a Phoneword",
                 Font = Font.SystemFontOfSize(NamedSize.Large),
@@ -47,7 +53,7 @@ namespace Phoneword
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
 
-            Entry entry = new Entry
+            entry = new Entry
             {
                 Placeholder = "e.g. 1-855-XAMARIN"
             };
@@ -75,7 +81,18 @@ namespace Phoneword
 
         private void OnButtonClicked(object sender, EventArgs e)
         {
-           //PhonewordTranslator.ToNumber()
+           
+            var translatedNumber = PhonewordTranslator.ToNumber(entry.Text);
+            if(!string.IsNullOrEmpty(translatedNumber))
+            {
+                button2.IsEnabled = true;
+                button2.Text = "Call " + translatedNumber;
+            }
+            else
+            {
+                button2.IsEnabled = false;
+                button2.Text = "Call";
+            }
         }
     }
 }
