@@ -14,6 +14,7 @@ namespace Phoneword
         Button button2;
         Label label;
         Entry entry;
+        string translatedNumber;
 
         public MainPage()
         {
@@ -30,7 +31,7 @@ namespace Phoneword
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
-            button1.Clicked += OnButtonClicked;
+            button1.Clicked += OnButtonClicked1;
 
 
             button2 = new Button
@@ -42,7 +43,7 @@ namespace Phoneword
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 IsEnabled = false
             };
-            button2.Clicked += OnButtonClicked;
+            button2.Clicked += OnCall;
 
 
             label = new Label
@@ -73,16 +74,13 @@ namespace Phoneword
                     button2
                     
                 }
-            };
-
-
-         
+            };         
         }
 
-        private void OnButtonClicked(object sender, EventArgs e)
+        private void OnButtonClicked1(object sender, EventArgs e)
         {
            
-            var translatedNumber = PhonewordTranslator.ToNumber(entry.Text);
+            translatedNumber = PhonewordTranslator.ToNumber(entry.Text);
             if(!string.IsNullOrEmpty(translatedNumber))
             {
                 button2.IsEnabled = true;
@@ -92,6 +90,21 @@ namespace Phoneword
             {
                 button2.IsEnabled = false;
                 button2.Text = "Call";
+            }
+        }
+
+        public async void  OnCall(object sender, EventArgs e)
+        {
+
+            var task = this.DisplayAlert("Dial a Number", "Would you like to dial " + translatedNumber + "?", "Yes", "No");
+
+            if(await task)
+            {
+
+            }
+            else
+            {
+
             }
         }
     }
