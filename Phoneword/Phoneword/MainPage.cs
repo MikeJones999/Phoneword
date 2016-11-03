@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Phoneword.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -100,7 +101,13 @@ namespace Phoneword
 
             if(await task)
             {
-
+                //factory method for retrieving platform-specific implementations of the specified type T - in this case IDialer (interface)
+                var dialer = DependencyService.Get<IDialer>();
+                if(dialer != null)
+                {
+                    await dialer.DialAsync(translatedNumber);
+                }
+              
             }
             else
             {
